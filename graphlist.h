@@ -11,6 +11,7 @@ public:
 //    GraphList();
     struct Vertex {
         LinkedList<Vertex *> adjacent_nodes;
+        int key;
 
     };
     std::vector<Vertex *> vertices;
