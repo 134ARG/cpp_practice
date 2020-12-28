@@ -6,6 +6,7 @@
 #include "rbt.h"
 #include "reverse_index.h"
 #include "linkedlist.h"
+#include "amd_encoder.h"
 
 
 using namespace std;
@@ -13,16 +14,38 @@ using namespace std;
 void test_reverse_index();
 void test_rbt();
 void test_linked_list();
+void test_amd();
 
 int main()
 {
-    test_rbt();
-    test_reverse_index();
-    test_linked_list();
-
+//    test_rbt();
+//    test_reverse_index();
+//    test_linked_list();
+    test_amd();
     std::cin.get();
     return 0;
 }
+
+void test_amd() {
+    AMDCode code_gen;
+    const unsigned char test[10] = "abcdefghi";
+
+    const unsigned char *res = code_gen.encode(test, 10);
+    unsigned char code[code_gen.result_len];
+
+    std::cout << "Encoded: ";
+    for (size_t i = 0; i < code_gen.result_len; i++) {
+        code[i] = res[i];
+        std::cout << code[i];
+    }
+    std::cout << std::endl;
+    const unsigned char *de_res = code_gen.decode(code, code_gen.result_len);
+
+    std::cout << "Decoded: ";
+    if (!de_res) std::cout << "Manipulated code." << std::endl;
+    std::cout << de_res << std::endl;
+}
+
 
 void test_reverse_index() {
     std::cout << "start testing reverse index:" << std::endl;

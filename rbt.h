@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <functional>
 
 template <class T>
@@ -395,35 +396,17 @@ void Rbt<T>::delete_rec(Rbt::Node *start)
 template<class T>
 void Rbt<T>::BFS()
 {
-    std::vector<Node*> stack1;
-    std::vector<Node *> stack2;
-    std::vector<Node *> *current_stack = &stack1;
-    std::vector<Node *> &tmp = stack1;
-    std::vector<Node *> *free_stack = &stack2;
+    std::queue<const Node *> queue;
 
-    current_stack->push_back(root);
-    while(current_stack->size()) {
-        while(current_stack->size()) {
-            Node *current = current_stack->back();
-            current_stack->pop_back();
-            std::cout << current->value << "|";
-            if (current->left) {
-                free_stack->push_back(current->left);
-            }
-            if (current->right) {
-                free_stack->push_back(current->right);
-            }
-        }
-        std::cout << std::endl;
-        if (*current_stack == stack1) {
-            current_stack = &stack2;
-            free_stack = &stack1;
-        } else {
-            current_stack = &stack1;
-            free_stack = &stack2;
-        }
-
+    queue.push(root);
+    while (!queue.empty()) {
+        const Node *current = queue.front();
+        std::cout << current->value << "|";
+        queue.pop();
+        if (current->left) queue.push(current->left);
+        if (current->right) queue.push(current->right);
     }
+    std::cout << std::endl;
 
 }
 
